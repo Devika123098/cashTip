@@ -8,10 +8,10 @@ const currencies = "https://api.frankfurter.dev/v1/currencies";
 
 const CurrencyCalculator = () => {
 	const [currency, setCurrency] = useState([]);
-	const [amount, setAmount] = useState(1);
+	const [amount, setAmount] = useState(1000);
 
 	const [fromCurrency, setFromCurrency] = useState("USD");
-	const [toCurrency, setToCurrency] = useState("CAD");
+	const [toCurrency, setToCurrency] = useState("USD");
 	const [convertedAmount, setConvertedAmount] = useState(null);
 	const [converting, setConverting] = useState(false);
 
