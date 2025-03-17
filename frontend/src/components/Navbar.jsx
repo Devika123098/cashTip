@@ -1,11 +1,11 @@
-import React from "react";
+import React from "react"; 
 import { FaUniversity } from "react-icons/fa";
 import { Link } from "react-router";
-import { useState } from "react";
-import { RxHamburgerMenu } from "react-icons/rx";
+import { useState } from "react"; 
+import { RxHamburgerMenu } from "react-icons/rx";  
 
 const Navbar = () => {
-	const navItems = [
+	const navItems = [ 
 		{ id: 1, text: "Bank Comparison", url: "/bank-comparison" },
 		{ id: 2, text: "Budgeting Tools", url: "/budgeting-tools" },
 		{ id: 3, text: "Currency Calculator", url: "/currency-calculator" },
@@ -19,7 +19,7 @@ const Navbar = () => {
 			<div>
 				<div className="flex items-center gap-2">
 					<FaUniversity className="text-[#2563EB] w-[32px] h-[32px] ml-6" />
-					<h2 className="text-xl font-bold xl:mr-80">cashTip</h2>
+					<h2 className="text-xl font-bold xl:mr-80">MoniMind</h2>
 					<nav className="hidden xl:block">
 						<ul className="flex justify-between items-center gap-20 text-[#4B5563]">
 							{navItems.map((item) => (
