@@ -20,7 +20,7 @@ const BankComparison = () => {
 			</div>
 
 			<div className="sm:flex grid justify-center sm:gap-30 gap-15 my-8">
-				<NavLink to="account type">
+				<NavLink to="/account-type">
 					<div className="flex flex-col items-center w-60 h-70 rounded-lg border-gray-500 bg-[#D9D9D9] shadow-xl gap-y-5 hover:scale-105">
 						<img src="Money.png" alt="account" className="w-50 py-3 " />
 						<button
@@ -32,7 +32,7 @@ const BankComparison = () => {
 					</div>
 				</NavLink>
 
-				<NavLink to="CC type">
+				<NavLink to="/cc-type">
 					<div className="flex flex-col items-center w-60 h-70 rounded-lg border-gray-500 bg-[#D9D9D9] shadow-xl gap-y-5 hover:scale-105">
 						<img src="CC.png" alt="card" className="w-60 py-5 " />
 						<button
