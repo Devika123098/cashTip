@@ -1,11 +1,11 @@
-import React from "react"; 
+import React from "react";
 import { FaUniversity } from "react-icons/fa";
 import { Link } from "react-router";
-import { useState } from "react"; 
-import { RxHamburgerMenu } from "react-icons/rx";  
+import { useState } from "react";
+import { RxHamburgerMenu } from "react-icons/rx";
 
 const Navbar = () => {
-	const navItems = [ 
+	const navItems = [
 		{ id: 1, text: "Bank Comparison", url: "/bank-comparison" },
 		{ id: 2, text: "Budgeting Tools", url: "/budgeting-tools" },
 		{ id: 3, text: "Currency Calculator", url: "/currency-calculator" },
