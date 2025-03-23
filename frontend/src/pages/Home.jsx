@@ -24,7 +24,7 @@ const Home = () => {
 	return (
 		<main className="bg-[#F8FAFC] w-screen min-h-[100vh] md:h-screen  flex flex-col items-center overflow-x-hidden">
 			<Navbar />
-			<h1 className="text-4xl font-bold mt-20 mb-10  text-center xl:w-[900px]">
+			<h1 className="text-xl md:text-3xl lg:text-4xl font-bold mt-20 mb-10  text-center xl:w-[900px]">
 				Compare Canadian Banks for Students
 			</h1>
 			<p className="text-[#4B5563] mb-20 text-center xl:w-[900px] ">

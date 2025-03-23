@@ -1,48 +1,62 @@
 import { useState } from "react";
 import StepOne from "./StepOne";
-import StepTwo from "./StepTwo";
+import StepN from "./StepN";
+import { stepConfigs } from "./config/stepConfigs.mjs";
+import { useNavigate } from "react-router";
 
 const Popup = () => {
-    const [step, setStep] = useState(1);
-    const [formData, setFormData] = useState({
-        name: "",
-        spendOn: []
-    });
+	const [step, setStep] = useState(1);
+	const [formData, setFormData] = useState({
+		name: "",
+		spendOn: [],
+	});
 
-    const handleStepOneContinue = (name) => {
-        setFormData(prev => ({ ...prev, name }));
-        setStep(2);
-    };
+	const navigate = useNavigate();
 
-    const handleStepTwoContinue = (spendOn) => {
-        setFormData(prev => ({ ...prev, spendOn }));
-        // Here you could proceed to next step or submit the form
-        console.log("Form completed:", { ...formData, spendOn });
-        // Optionally reset or redirect after completion
-        // setStep(1);
-    };
+	const handleStepOneContinue = (name) => {
+		setFormData((prev) => ({ ...prev, name }));
+		setStep(2);
+	};
 
-    const handleBack = () => {
-        setStep(1);
-    };
+	const handleStepNContinue = (selections, currentStep) => {
+		setFormData((prev) => ({
+			...prev,
+			spendOn: selections,
+		}));
+		if (step < 12) {
+			setStep(step + 1);
+		} else {
+			console.log("Form completed:", formData);
+			navigate("/dashboard");
+		}
+	};
 
-    return (
-        <div className="relative">
-            {step === 1 && (
-                <StepOne
-                    onContinue={handleStepOneContinue}
-                    initialValue={formData.name}
-                />
-            )}
-            {step === 2 && (
-                <StepTwo
-                    onBack={handleBack}
-                    onContinue={handleStepTwoContinue}
-                    initialSelections={formData.spendOn}
-                />
-            )}
-        </div>
-    );
+	const handleBack = () => {
+		if (step > 1) {
+			setStep(step - 1);
+		}
+	};
+
+	return (
+		<div className="relative">
+			{step === 1 && (
+				<StepOne
+					onContinue={handleStepOneContinue}
+					initialValue={formData.name}
+				/>
+			)}
+			{step > 1 && step <= 12 && (
+				<StepN
+					onBack={handleBack}
+					onContinue={handleStepNContinue}
+					initialSelections={formData.spendOn}
+					question={stepConfigs[step - 2].question}
+					options={stepConfigs[step - 2].options}
+					isLastStep={step === 12}
+				/>
+			)}
+		</div>
+	);
 };
 
 export default Popup;
