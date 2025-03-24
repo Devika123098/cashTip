@@ -28,9 +28,9 @@ const Dashboard = () => {
 								{answers.map((answer, index) => (
 									<TableRow
 										key={index}
-										answers={[...answer]}
-										assigned={[...assigned]}
-										available={[available]}
+										answers={answer}
+										assigned={assigned}
+										available={available}
 									/>
 								))}
 							</tbody>
