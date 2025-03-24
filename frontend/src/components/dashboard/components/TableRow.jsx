@@ -1,20 +1,21 @@
-const TableRow = ({ data = [] }) => {
-	const firstEntry = data[0];
-	const otherTableData = [];
-
-	for (const e of data.slice(1)) {
-		otherTableData.push(<td>{e}</td>);
-	}
+const TableRow = ({
+	answers = ["Bills", "Needs", "Wants"],
+	available = [300, 200, 600],
+	assigned = [150, 240, 560],
+}) => {
 
 	return (
-		<tr>
+		{answers.map((answer,index)=>{
+			<tr>
 			<th></th>
 			<td>
 				<input type="checkbox" defaultChecked className="checkbox" />
-				{data[0]}
+				{answer}
 			</td>
-			{otherTableData}
+			<td>{assigned[index]}</td>
+			<td>{available[index]}</td>
 		</tr>
+		})}
 	);
 };
 

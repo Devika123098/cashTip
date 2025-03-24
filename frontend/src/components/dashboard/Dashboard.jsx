@@ -1,29 +1,38 @@
 import TableRow from "./components/TableRow.jsx";
-
+import useAnswerStore from "../../store/answerStore.jsx";
+import { useState } from "react";
 const Dashboard = () => {
+	const answers = useAnswerStore((state) => state.answers);
+	const [assigned, setAssigned] = useState([]);
+	const [available, setAvailable] = useState([]);
 	return (
 		<>
 			<div className="drawer lg:drawer-open">
 				<input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
 				<div className="drawer-content flex flex-col justify-center items-center">
-					<div></div>
 					<div className="overflow-x-auto">
 						<table className="table">
 							{/* head */}
 							<thead>
-								<TableRow
-									data={["Category", "Assigned", "Activity", "Available"]}
-								/>
+								<TableRow data={["Category", "Assigned", "Available"]} />
 							</thead>
 							<tbody>
-								<TableRow
+								{/* <TableRow
 									data={[
 										"Hart Hagerty",
 										"Desktop Support Technician",
 										"Purple",
 									]}
 								/>
-								<TableRow data={["Brice Swyre", "Tax Accountant", "Red"]} />
+								<TableRow data={["Brice Swyre", "Tax Accountant", "Red"]} /> */}
+								{answers.map((answer, index) => (
+									<TableRow
+										key={index}
+										answers={[...answer]}
+										assigned={[...assigned]}
+										available={[available]}
+									/>
+								))}
 							</tbody>
 						</table>
 					</div>
