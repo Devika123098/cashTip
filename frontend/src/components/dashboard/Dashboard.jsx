@@ -1,4 +1,4 @@
-import TableRow from "./TableRow.jsx";
+import TableRow from "./components/TableRow.jsx";
 
 const Dashboard = () => {
 	return (
