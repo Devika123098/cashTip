@@ -8,48 +8,31 @@ const TableRow = ({
 	const availableAmountData = [];
 	const assignedAmountData = [];
 
-	//TODO:
-	// function renderData(dataStore, data, typeOfData = "answer") {
-	// 	if (typeOfData === "answer") {
-	// 		for (const d of data) {
-	// 			dataStore.push(
-	// 				<td>
-	// 					<input type="checkbox" defaultChecked className="checkbox" />
-	// 					{d}
-	// 				</td>,
-	// 			);
-	// 		}
-	// 	} else {
-	// 		for (const d of data) {
-	// 			dataStore.push(<td>{d}</td>);
-	// 		}
-	// 	}
-	// }
-
-	for (const answer of answers) {
-		answerData.push(
-			<td>
-				<input type="checkbox" defaultChecked className="checkbox" />
-				{answer}
-			</td>,
-		);
-	}
-
-	for (const availableAmount of availableAmounts) {
-		availableAmountData.push(<td>{availableAmount}</td>);
-	}
-
-	for (const assignedAmount of assignedAmounts) {
-		assignedAmountData.push(<td>{assignedAmount}</td>);
+	function renderData(dataStore, data, typeOfData = "answer") {
+		if (typeOfData === "answer") {
+			for (const d of data) {
+				dataStore.push(
+					<td>
+						<input type="checkbox" defaultChecked className="checkbox" />
+						{d}
+					</td>,
+				);
+			}
+		} else {
+			for (const d of data) {
+				dataStore.push(<td>{d}</td>);
+			}
+		}
+		return dataStore;
 	}
 
 	return (
 		<>
 			<tr>
 				<th></th>
-				{answerData}
-				{availableAmountData}
-				{assignedAmountData}
+				{renderData(answerData, answers, "answer")}
+				{renderData(availableAmountData, availableAmounts, "")}
+				{renderData(assignedAmountData, assignedAmounts, "")}
 			</tr>
 		</>
 	);
