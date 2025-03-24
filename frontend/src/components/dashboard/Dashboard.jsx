@@ -1,8 +1,4 @@
-import { tableColumns } from "./config/tableColumns.mjs";
-
-const entries = Object.entries(tableColumns);
-const firstEntry = entries[0];
-const otherEntries = entries.slice(1);
+import TableRow from "./TableRow.jsx";
 
 const Dashboard = () => {
 	return (
@@ -15,66 +11,19 @@ const Dashboard = () => {
 						<table className="table">
 							{/* head */}
 							<thead>
-								<tr>
-									<th></th>
-									<th>
-										<input
-											type="checkbox"
-											defaultChecked
-											className="checkbox uppercase"
-										/>
-										{firstEntry[0]}
-									</th>
-									{otherEntries.map(([key, value]) => (
-										<th className="uppercase" key={key}>
-											{key}
-										</th>
-									))}
-								</tr>
+								<TableRow
+									data={["Category", "Assigned", "Activity", "Available"]}
+								/>
 							</thead>
 							<tbody>
-								{/* row 1 */}
-								<tr>
-									<th></th>
-									<td>
-										<input
-											type="checkbox"
-											defaultChecked
-											className="checkbox"
-										/>
-										Cy Ganderton
-									</td>
-									<td>Quality Control Specialist</td>
-									<td>Blue</td>
-								</tr>
-								{/* row 2 */}
-								<tr>
-									<th></th>
-									<td>
-										<input
-											type="checkbox"
-											defaultChecked
-											className="checkbox"
-										/>
-										Hart Hagerty
-									</td>
-									<td>Desktop Support Technician</td>
-									<td>Purple</td>
-								</tr>
-								{/* row 3 */}
-								<tr>
-									<th></th>
-									<td>
-										<input
-											type="checkbox"
-											defaultChecked
-											className="checkbox"
-										/>
-										Brice Swyre
-									</td>
-									<td>Tax Accountant</td>
-									<td>Red</td>
-								</tr>
+								<TableRow
+									data={[
+										"Hart Hagerty",
+										"Desktop Support Technician",
+										"Purple",
+									]}
+								/>
+								<TableRow data={["Brice Swyre", "Tax Accountant", "Red"]} />
 							</tbody>
 						</table>
 					</div>
