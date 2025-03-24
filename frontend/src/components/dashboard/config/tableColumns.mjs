@@ -1,6 +1,6 @@
-export const tableColumns= {
-    "category": "",
-    "assigned": "",
-    "activity": "",
-    "available": "",
+export const tableColumns = {
+	category: [""],
+	assigned: [""],
+	activity: [""],
+	available: [""],
 };
