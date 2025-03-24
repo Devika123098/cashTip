@@ -6,6 +6,7 @@ import CreditCard from "./pages/CreditCard.jsx";
 import BankComparison from "./components/bank-comparison/BankComparison.jsx";
 import CurrencyCalculator from "./components/currency-calculator/CurrencyCalculator.jsx";
 import Popup from "./components/pop-up/Popup.jsx";
+import Dashboard from "./components/dashboard/Dashboard.jsx";
 const App = () => {
     return (
         <Routes>
@@ -16,6 +17,7 @@ const App = () => {
             <Route path="/account-type" element={<AccountType />} />
             <Route path="/cc-type" element={<CreditCard />} />
             <Route path="/pop-up" element={<Popup />} />
+            <Route path="/dashboard" element={<Dashboard/>}/>
         </Routes>
     );
 };
