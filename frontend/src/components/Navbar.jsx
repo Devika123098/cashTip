@@ -19,9 +19,9 @@ const Navbar = () => {
 			<div>
 				<div className="flex items-center gap-2">
 					<FaUniversity className="text-[#2563EB] w-[32px] h-[32px] ml-6" />
-					<h2 className="text-xl font-bold xl:mr-80">cashTip</h2>
-					<nav className="hidden xl:block">
-						<ul className="flex justify-between items-center gap-20 text-[#4B5563]">
+					<h2 className="text-xl font-bold xl:mr-80">MoniMind</h2>
+					<nav className="hidden sm:block lg:block">
+						<ul className="flex lg:justify-between items-center px-8 gap-20 text-[#4B5563]">
 							{navItems.map((item) => (
 								<li key={item.id}>
 									<Link
@@ -34,7 +34,7 @@ const Navbar = () => {
 							))}
 						</ul>
 					</nav>
-					<div className="hidden xl:visible xl:flex xl:items-center xl:justify-between xl:gap-6 xl:ml-64">
+					<div className="hidden sm:visible sm:flex sm:items-center sm:justify-between sm:gap-6  lg:ml-64">
 						<button
 							to="/signIn"
 							className="text-[#4B5563] hover:border-b-2 hover:border-b-[#2563EB]"
@@ -50,7 +50,7 @@ const Navbar = () => {
 					</div>
 				</div>
 			</div>
-			<button className="block xl:hidden">
+			<button className="block sm:hidden xl:hidden">
 				<RxHamburgerMenu
 					className="text-[#2563EB] w-[32px] h-[32px] mr-3"
 					onClick={() => handleClick()}

@@ -10,7 +10,7 @@ const Footer = () => {
 				<div className=" flex-col w-60 h-60">
 					<div className="flex gap-3 items-center mb-6">
 						<LiaUniversitySolid color="white" size="20" />
-						<h4 className="text-white">CashTip</h4>
+						<h4 className="text-white">MoniMind</h4>
 					</div>
 					<p className="text-[#9CA3AF] text-balance">
 						Helping international students make smarter financial decisions in
@@ -67,7 +67,7 @@ const Footer = () => {
 
 			<div className="sm:flex  items-center sm:justify-between justify-center sm:border-t-2 border-[#9CA3AF] py-5">
 				<p className="text-[#9CA3AF] text-center text-nowrap mb-5">
-					&copy;2025 CashTip. All right reserved
+					&copy;2025 MoniMind. All right reserved
 				</p>
 				<div className="flex gap-5  justify-center">
 					<FaXTwitter size="20" className="fill-[#9CA3AF] " />
