@@ -34,15 +34,9 @@ const Navbar = () => {
 							))}
 						</ul>
 					</nav>
-<<<<<<< HEAD
-					<div className="hidden sm:visible sm:flex sm:items-center sm:justify-between sm:gap-6  lg:ml-64">
-						<button
-							to="/signIn"
-=======
 					<div className="hidden xl:visible xl:flex xl:items-center xl:justify-between xl:gap-6 xl:ml-64">
 						<Link
 							to="/sign-in"
->>>>>>> feat/auth-page
 							className="text-[#4B5563] hover:border-b-2 hover:border-b-[#2563EB]"
 						>
 							Sign In
