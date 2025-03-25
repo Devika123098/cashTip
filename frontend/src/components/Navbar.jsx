@@ -34,19 +34,19 @@ const Navbar = () => {
 							))}
 						</ul>
 					</nav>
-					<div className="hidden sm:visible sm:flex sm:items-center sm:justify-between sm:gap-6  lg:ml-64">
-						<button
-							to="/signIn"
+					<div className="hidden xl:visible xl:flex xl:items-center xl:justify-between xl:gap-6 xl:ml-64">
+						<Link
+							to="/sign-in"
 							className="text-[#4B5563] hover:border-b-2 hover:border-b-[#2563EB]"
 						>
 							Sign In
-						</button>
-						<button
-							to="/register"
+						</Link>
+						<Link
+							to="/sign-up"
 							className="px-4 py-2 bg-[#2563EB] text-white rounded hover:opacity-90"
 						>
-							Register
-						</button>
+							Sign Up
+						</Link>
 					</div>
 				</div>
 			</div>
@@ -65,12 +65,12 @@ const Navbar = () => {
 							</Link>
 						</li>
 					))}
-					<button to="/signIn" className=" text-[#4B5563] ">
+					<Link to="/sign-in" className=" text-[#4B5563] ">
 						Sign In
-					</button>
-					<button to="/register" className=" text-[#4B5563]">
+					</Link>
+					<Link to="/sign-up" className=" text-[#4B5563]">
 						Register
-					</button>
+					</Link>
 				</ul>
 			)}
 		</header>
