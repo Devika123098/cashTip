@@ -16,15 +16,7 @@ const Dashboard = () => {
 							<thead>
 								<TableRow data={["Category", "Assigned", "Available"]} />
 							</thead>
-							<tbody>
-								{/* <TableRow
-									data={[
-										"Hart Hagerty",
-										"Desktop Support Technician",
-										"Purple",
-									]}
-								/>
-								<TableRow data={["Brice Swyre", "Tax Accountant", "Red"]} /> */}
+							<tbody className="flex flex-col">
 								{answers.map((answer, index) => (
 									<TableRow
 										key={index}
