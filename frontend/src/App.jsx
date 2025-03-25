@@ -5,7 +5,10 @@ import AccountType from "./pages/AccountType.jsx";
 import CreditCard from "./pages/CreditCard.jsx";
 import BankComparison from "./components/bank-comparison/BankComparison.jsx";
 import CurrencyCalculator from "./components/currency-calculator/CurrencyCalculator.jsx";
-import StepOne from "./components/pop-up/StepOne.jsx"
+import StepOne from "./components/pop-up/StepOne.jsx";
+import SignIn from "./pages/SignIn.jsx";
+import SignUp from "./pages/SignUp.jsx";
+import UserPassword from "./pages/UserPassword.jsx";
 
 const App = () => {
 	return (
@@ -16,7 +19,10 @@ const App = () => {
 			<Route path="/currency-calculator" element={<CurrencyCalculator />} />
 			<Route path="/account-type" element={<AccountType />} />
 			<Route path="/cc-type" element={<CreditCard />} />
-			<Route path="/pop-up" element={<StepOne/>}/>
+			<Route path="/pop-up" element={<StepOne />} />
+			<Route path="/sign-in" element={<SignIn />} />
+			<Route path="/sign-up" element={<SignUp />} />
+			<Route path="/user-password" element={<UserPassword />} />
 		</Routes>
 	);
 };
