@@ -17,7 +17,10 @@ const App = () => {
 			<Route path="/" element={<Home />} />
 			<Route path="/bank-comparison" element={<BankComparison />} />
 			{/*<Route path="/budgeting-tools" element={<BudgetingTools />} />*/}
-			<Route path="/currency-calculator" element={<CurrencyCalculator />} />
+			<Route
+				path="/currency-calculator"
+				element={<CurrencyCalculator />}
+			/>
 			<Route path="/account-type" element={<AccountType />} />
 			<Route path="/cc-type" element={<CreditCard />} />
 			<Route path="/pop-up" element={<Popup />} />
