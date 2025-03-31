@@ -1,4 +1,5 @@
 import { useState } from "react";
+import useAnswerStore from "../../store/answerStore";
 
 const StepN = ({
 	onBack,
@@ -10,7 +11,8 @@ const StepN = ({
 }) => {
 	const [selectedOptions, setSelectedOptions] = useState(initialSelections);
 	const [error, setError] = useState("");
-
+	const addAnswer = useAnswerStore((state) => state.addAnswer);
+	
 	const handleCheckboxChange = (event) => {
 		const { value, checked } = event.target;
 		setSelectedOptions((prev) =>
@@ -25,13 +27,19 @@ const StepN = ({
 			setError("Please select at least one option");
 			return;
 		}
+		const currentAnswers = useAnswerStore.getState().answers.map((answer) => answer);
+		selectedOptions.forEach((option)=>{
+			if(!currentAnswers.includes(option)){
+				addAnswer(option);
+			}
+		});
 		onContinue(selectedOptions);
 	};
 
 	return (
 		<form
 			onSubmit={handleSubmit}
-			className="absolute top-1/2 left-1/2 -translate-x-1/2  translate-y-1/2 w-96 h-96 p-4 shadow-md ring-1 ring-gray-200 rounded-md"
+			className="absolute top-1/2 left-1/2 -translate-x-1/2 translate-y-1/2 w-96 h-96 p-4 shadow-md ring-1 ring-gray-200 rounded-md"
 		>
 			<h4 className="text-xl p-2">{question}</h4>
 			<div className="grid grid-cols-2 gap-2 p-2">

@@ -3,6 +3,7 @@ import StepOne from "./StepOne";
 import StepN from "./StepN";
 import { stepConfigs } from "./config/stepConfigs.mjs";
 import { useNavigate } from "react-router";
+import useAnswerStore from "../../store/answerStore";
 
 const Popup = () => {
 	const [step, setStep] = useState(1);
@@ -36,7 +37,7 @@ const Popup = () => {
 			setStep(step - 1);
 		}
 	};
-
+	
 	return (
 		<div className="relative">
 			{step === 1 && (
