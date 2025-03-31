@@ -12,7 +12,7 @@ const StepN = ({
 	const [selectedOptions, setSelectedOptions] = useState(initialSelections);
 	const [error, setError] = useState("");
 	const addAnswer = useAnswerStore((state) => state.addAnswer);
-	
+
 	const handleCheckboxChange = (event) => {
 		const { value, checked } = event.target;
 		setSelectedOptions((prev) =>
@@ -27,9 +27,11 @@ const StepN = ({
 			setError("Please select at least one option");
 			return;
 		}
-		const currentAnswers = useAnswerStore.getState().answers.map((answer) => answer);
-		selectedOptions.forEach((option)=>{
-			if(!currentAnswers.includes(option)){
+		const currentAnswers = useAnswerStore
+			.getState()
+			.answers.map((answer) => answer);
+		selectedOptions.forEach((option) => {
+			if (!currentAnswers.includes(option)) {
 				addAnswer(option);
 			}
 		});
@@ -37,59 +39,30 @@ const StepN = ({
 	};
 
 	const getIcon = (option) => {
-		switch(option.toLowerCase()) {
-			case 'dining out': return '🍽️';
-			case 'entertainment': return '🎬';
-			case 'video games': return '🎮';
-			case 'hobbies': return '🎨';
-			case 'charity': return '❤️';
-			case 'gifts': return '🎁';
-			case 'home decor': return '🏠';
-			case 'celebrations': return '🎉';
+		switch (option.toLowerCase()) {
+			case "dining out":
+				return "🍽️";
+			case "entertainment":
+				return "🎬";
+			case "video games":
+				return "🎮";
+			case "hobbies":
+				return "🎨";
+			case "charity":
+				return "❤️";
+			case "gifts":
+				return "🎁";
+			case "home decor":
+				return "🏠";
+			case "celebrations":
+				return "🎉";
 			// Add more cases for other options
-			default: return '📌';
+			default:
+				return "📌";
 		}
 	};
 
 	return (
-<<<<<<< HEAD
-		<form
-			onSubmit={handleSubmit}
-			className="absolute top-1/2 left-1/2 -translate-x-1/2 translate-y-1/2 w-96 h-96 p-4 shadow-md ring-1 ring-gray-200 rounded-md"
-		>
-			<h4 className="text-xl p-2">{question}</h4>
-			<div className="grid grid-cols-2 gap-2 p-2">
-				{options.map((option) => (
-					<label key={option} className="flex items-center gap-2">
-						<input
-							type="checkbox"
-							name="selection"
-							value={option}
-							checked={selectedOptions.includes(option)}
-							onChange={handleCheckboxChange}
-						/>
-						{option.charAt(0).toUpperCase() + option.slice(1)}
-					</label>
-				))}
-			</div>
-			{error && <p className="text-red-500 text-sm p-2">{error}</p>}
-			<div className="flex justify-between p-2">
-				<button
-					type="button"
-					onClick={onBack}
-					className="border bg-gray-200 rounded-md px-2 text-gray-400 hover:bg-gray-300"
-				>
-					Back
-				</button>
-				<button
-					type="submit"
-					className="border bg-gray-200 rounded-md px-2 text-gray-400 hover:bg-gray-300"
-				>
-					{isLastStep ? "Finish" : "Continue"}
-				</button>
-			</div>
-		</form>
-=======
 		<div className="fixed inset-0 flex items-center justify-center bg-black/20 backdrop-blur-sm">
 			<form
 				onSubmit={handleSubmit}
@@ -109,9 +82,10 @@ const StepN = ({
 						<label
 							key={option}
 							className={`flex items-center gap-3 p-4 rounded-xl border-2 transition-all cursor-pointer
-								${selectedOptions.includes(option)
-									? 'border-blue-500 bg-blue-50'
-									: 'border-gray-200 hover:border-gray-300 bg-gray-50'
+								${
+									selectedOptions.includes(option)
+										? "border-blue-500 bg-blue-50"
+										: "border-gray-200 hover:border-gray-300 bg-gray-50"
 								}`}
 						>
 							<input
@@ -130,9 +104,7 @@ const StepN = ({
 					))}
 				</div>
 
-				{error && (
-					<p className="text-red-500 text-sm mb-4">{error}</p>
-				)}
+				{error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
 				<div className="flex justify-between items-center">
 					<button
@@ -151,7 +123,6 @@ const StepN = ({
 				</div>
 			</form>
 		</div>
->>>>>>> feat/pop-up
 	);
 };
 
