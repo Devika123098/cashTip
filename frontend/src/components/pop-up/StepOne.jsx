@@ -19,31 +19,43 @@ const StepOne = ({ onContinue, initialValue = "" }) => {
     };
 
     return (
-        <form
-            onSubmit={handleSubmit}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 translate-y-1/2 w-96 h-96 p-4 shadow-md ring-1 ring-gray-200 rounded-md"
-        >
-            <h4 className="text-xl p-2">People call us Moni-Mind</h4>
-            <p className="text-sm p-2 text-gray-400">What should we call you?</p>
-            <div className="flex flex-col px-2">
-                <input
-                    className="w-[30vh] h-9 border-b p-2 outline-none text-md"
-                    type="text"
-                    placeholder="Your first name"
-                    value={inputValue}
-                    onChange={handleInputChange}
-                />
-                {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
-            </div>
-            <div className="p-2">
-                <button
-                    type="submit"
-                    className="border bg-gray-200 rounded-md mt-5 px-2 text-gray-400 hover:bg-gray-300"
-                >
-                    Continue
-                </button>
-            </div>
-        </form>
+        <div className="fixed inset-0 flex items-center justify-center bg-black/20 backdrop-blur-sm">
+            <form
+                onSubmit={handleSubmit}
+                className="bg-white w-[600px] rounded-3xl shadow-xl p-8"
+            >
+                <div className="flex items-center gap-3 mb-4">
+                    <span className="text-2xl">👋</span>
+                    <h2 className="text-2xl font-semibold text-gray-900">
+                        People call us Moni-Mind
+                    </h2>
+                </div>
+
+                <p className="text-gray-600 mb-8">What should we call you?</p>
+
+                <div className="mb-8">
+                    <input
+                        className="w-full px-4 py-3 text-lg border-b-2 border-gray-200 outline-none transition-colors focus:border-blue-500"
+                        type="text"
+                        placeholder="Your first name"
+                        value={inputValue}
+                        onChange={handleInputChange}
+                    />
+                    {error && (
+                        <p className="text-red-500 text-sm mt-2">{error}</p>
+                    )}
+                </div>
+
+                <div className="flex justify-end">
+                    <button
+                        type="submit"
+                        className="px-8 py-3 bg-blue-600 text-white font-medium rounded-xl hover:bg-blue-700 transition-colors"
+                    >
+                        Continue
+                    </button>
+                </div>
+            </form>
+        </div>
     );
 };
 

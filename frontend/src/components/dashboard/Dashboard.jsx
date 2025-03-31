@@ -1,103 +1,201 @@
-import TableRow from "./components/TableRow.jsx";
-import useAnswerStore from "../../store/answerStore.jsx";
-import { useState } from "react";
-import { Link } from "react-router";
+import React, { useState } from 'react';
+import { Link } from 'react-router';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import TableRow from './components/TableRow';
+import useAnswerStore from '../../store/answerStore';
+import useBudgetStore from '../../store/budgetStore';
+import AddBalancePopup from '../pop-up/AddBalancePopup';
 
 const Dashboard = () => {
 	const answers = useAnswerStore((state) => state.answers);
-	const [assigned, setAssigned] = useState([]);
-	const [available, setAvailable] = useState([]);
+	const [selectedDate, setSelectedDate] = useState(new Date());
+	const { totalBalance, autoAssign, resetAssignments, addToBalance } = useBudgetStore();
+	const [showAddBalance, setShowAddBalance] = useState(false);
+
+	const handleAddBalance = (amount) => {
+		addToBalance(amount);
+	};
+
+	const handleAutoAssign = () => {
+		autoAssign();
+	};
+
+	const handleReset = () => {
+		if (window.confirm('Are you sure you want to reset all assignments?')) {
+			resetAssignments();
+		}
+	};
+
+	const categorizeAnswers = (answers) => {
+		const categories = {
+			bills: [],
+			needs: [],
+			wants: []
+		};
+
+		answers.forEach(answer => {
+			const lowerAnswer = answer.toLowerCase();
+			
+			// Housing & Living Situation (from step 1, 8)
+			if (lowerAnswer.includes('i rent') 
+			) {
+				categories.bills.push("rent");
+			}else if (lowerAnswer.includes('mortgage')) {
+				categories.bills.push(answer);
+			}
+			// Regular Monthly Bills (from step 4)
+			else if (lowerAnswer.includes('phone') || lowerAnswer.includes('internet')) {
+				categories.bills.push(answer);
+			}
+			// Subscriptions (from step 3)
+			else if (lowerAnswer.includes('music') || lowerAnswer.includes('tv streaming') || 
+					lowerAnswer.includes('fitness') || lowerAnswer.includes('online courses') || 
+					lowerAnswer.includes('audio or ebooks') || lowerAnswer.includes('news') || 
+					lowerAnswer.includes('meal delivery')) {
+				categories.bills.push(answer);
+			}
+			// Debt & Loans (from step 7)
+			else if (lowerAnswer.includes('credit card') || lowerAnswer.includes('student loans') || 
+					lowerAnswer.includes('auto loans') || lowerAnswer.includes('personal loans') || 
+					lowerAnswer.includes('medical debt')) {
+				categories.bills.push(answer);
+			}
+			// Transportation (from step 5)
+			else if (lowerAnswer.includes('car') || lowerAnswer.includes('public transit') || 
+					lowerAnswer.includes('rideshare') || lowerAnswer.includes('motorcycle')) {
+				categories.needs.push(answer);
+			}
+			// Basic Needs (from step 4)
+			else if (lowerAnswer.includes('groceries') || lowerAnswer.includes('personal care') || 
+					lowerAnswer.includes('clothing')) {
+				categories.needs.push(answer);
+			}
+			// Savings & Emergency (from step 10)
+			else if (lowerAnswer.includes('emergency fund') || lowerAnswer.includes('retirement') || 
+					lowerAnswer.includes('investments')) {
+				categories.needs.push(answer);
+			}
+			// Annual Expenses (from step 11)
+			else if (lowerAnswer.includes('annual credit card fees') || 
+					lowerAnswer.includes('medical expenses') || 
+					lowerAnswer.includes('taxes or other fees')) {
+				categories.needs.push(answer);
+			}else if (lowerAnswer.includes('yes')) {
+		categories.needs.push("mortage");
+	}
+			// Discretionary/Wants (from step 9)
+			else if (lowerAnswer.includes('dining out') || lowerAnswer.includes('entertainment') || 
+					lowerAnswer.includes('video games') || lowerAnswer.includes('hobbies') || 
+					lowerAnswer.includes('charity') || lowerAnswer.includes('gifts') || 
+					lowerAnswer.includes('celebrations')) {
+				categories.wants.push(answer);
+			}
+			// Future Goals/Wants (from step 10)
+			else if (lowerAnswer.includes('new home') || lowerAnswer.includes('new car') || 
+					lowerAnswer.includes('vacation') || lowerAnswer.includes('baby') || 
+					lowerAnswer.includes('wedding')) {
+				categories.wants.push(answer);
+			}
+			// Everything else
+			else {
+				categories.wants.push(answer);
+			}
+		});
+
+		return categories;
+	};
+
+	const categorizedAnswers = categorizeAnswers(answers);
+
 	return (
-		<>
-			<div className="navbar shadow-sm bg-[#2563EB]">
-				<div className="navbar-start">
-					<div className="dropdown">
-						<div
-							tabIndex={0}
-							role="button"
-							className="btn btn-ghost btn-circle"
+		<div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
+			{showAddBalance && (
+				<AddBalancePopup
+					onClose={() => setShowAddBalance(false)}
+					onAdd={handleAddBalance}
+				/>
+			)}
+			<nav className="bg-blue-600 shadow-lg text-white p-4">
+				<div className="container mx-auto flex justify-between items-center">
+					<h1 className="text-2xl font-bold">Budget Dashboard</h1>
+					<div className="flex gap-4">
+						<button 
+							onClick={handleAutoAssign}
+							className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
 						>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								className="h-8 w-8"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke="white"
-							>
-								{" "}
-								<path
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									strokeWidth="2"
-									d="M4 6h16M4 12h16M4 18h7"
-								/>{" "}
-							</svg>
-						</div>
-						<ul
-							tabIndex={0}
-							className="menu  menu-sm dropdown-content bg-base-200 rounded-box z-1 mt-3  w-52 px-2 shadow"
+							Auto-Assign
+						</button>
+						<button 
+							onClick={handleReset}
+							className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
 						>
-							<li>
-								<Link to="/">Home</Link>
-							</li>
-							<li>
-								<Link to="/about">About</Link>
-							</li>
-						</ul>
+							Reset
+						</button>
+						<button 
+							onClick={() => setShowAddBalance(true)}
+							className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
+						>
+							Add Balance
+						</button>
 					</div>
 				</div>
-				<div className="navbar-center">
-					<Link className="capitalize text-white text-2xl font-bold" to="/">
-						dashboard
-					</Link>
-				</div>
-				<div className="navbar-end">
-					<div className="dropdown dropdown-end">
-						<div
-							tabIndex={0}
-							role="button"
-							className="btn btn-ghost btn-circle avatar"
-						>
-							<div className="w-10 rounded-full">
-								<img
-									alt="profile"
-									src="https://cdn-icons-png.flaticon.com/128/3237/3237472.png"
-								/>
+			</nav>
+
+			<main className="container mx-auto p-6">
+				<div className="bg-white rounded-xl shadow-2xl p-8 mb-6 backdrop-blur-sm backdrop-filter">
+					<div className="flex justify-between items-center mb-8">
+						<div className="flex items-center gap-6">
+							<DatePicker
+								selected={selectedDate}
+								onChange={(date) => setSelectedDate(date)}
+								dateFormat="MMMM yyyy"
+								showMonthYearPicker
+								className="text-2xl font-bold border-none focus:ring-2 focus:ring-blue-500 rounded-lg"
+							/>
+							<div className="text-sm text-gray-600 bg-gray-50 p-4 rounded-lg shadow-inner">
+								<h3 className="font-semibold mb-2">Auto-assign Distribution</h3>
+								<ul className="space-y-1">
+									<li className="flex items-center gap-2">
+										<div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+										Bills: 50%
+									</li>
+									<li className="flex items-center gap-2">
+										<div className="w-2 h-2 bg-green-500 rounded-full"></div>
+										Needs: 30%
+									</li>
+									<li className="flex items-center gap-2">
+										<div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+										Wants: 20%
+									</li>
+								</ul>
 							</div>
 						</div>
-						<ul
-							tabIndex={0}
-							className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-53 p-2 shadow"
-						>
-							<li>
-								<Link to="/profile">Profile</Link>
-							</li>
-							<li>
-								<Link to="/settings">Settings</Link>
-							</li>
-							<li>
-								<Link to="/">Sign out</Link>
-							</li>
-						</ul>
+						<div className="bg-gradient-to-r from-green-50 to-blue-50 p-4 rounded-xl shadow-md">
+							<div className="text-sm text-gray-600 font-medium">Ready to Assign</div>
+							<div className={`text-2xl font-bold ${totalBalance < 0 ? 'text-red-600' : 'text-green-600'}`}>
+								${totalBalance.toFixed(2)}
+							</div>
+						</div>
+					</div>
+
+					<div className="relative overflow-hidden rounded-xl shadow-xl">
+						<div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-purple-500/5"></div>
+						<table className="w-full relative z-10">
+							<thead>
+								<tr className="bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+									<th className="text-left p-4 text-gray-600 font-semibold">Category</th>
+									<th className="text-right p-4 text-gray-600 font-semibold">Assigned</th>
+									<th className="text-right p-4 text-gray-600 font-semibold">Target</th>
+									<th className="text-right p-4 text-gray-600 font-semibold">Available</th>
+								</tr>
+							</thead>
+							<TableRow categorizedAnswers={categorizedAnswers} />
+						</table>
 					</div>
 				</div>
-			</div>
-			<div className="w-full max-w-3/4 bg-base-100 p-2">
-				<table className="table mt-20">
-					<TableRow />
-					{/*<tbody className="flex flex-col">
-						{answers.map((answer, index) => (
-							<TableRow
-								key={index}
-								answers={answer}
-								assigned={assigned}
-								available={available}
-							/>
-						))}
-					</tbody>*/}
-				</table>
-			</div>
-		</>
+			</main>
+		</div>
 	);
 };
 

@@ -1,164 +1,143 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import useBudgetStore from '../../../store/budgetStore';
 
-const TableRow = ({
-	key = 0,
-	categories = ["Category", "Assigned", "Available"],
-	answers = ["Bills", "Needs", "But", "Wants", "Some", "Money"],
-	assignedAmounts = [150, 240, 560, 0, 100, 200],
-	availableAmounts = [300, 200, 600, 0, 20, 20],
-}) => {
-	const [editingCell, setEditingCell] = useState(null);
-	const [editedValues, setEditedValues] = useState({
-		assigned: [...assignedAmounts],
-		available: [...availableAmounts]
-	});
+const ProgressBar = ({ assigned, target }) => {
+    const percentage = target > 0 ? (assigned / target) * 100 : 0;
+    const color = percentage >= 100 ? 'bg-green-500' : 'bg-blue-500';
+    
+    return (
+        <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
+            <div 
+                className={`h-full ${color} transition-all duration-300 shadow-sm`}
+                style={{ width: `${Math.min(100, percentage)}%` }}
+            />
+        </div>
+    );
+};
 
-	const handleEdit = (type, index) => {
-		setEditingCell({ type, index });
-	};
+const TableRow = ({ categorizedAnswers }) => {
+    const [editedValues, setEditedValues] = useState({});
+    const [isEditing, setIsEditing] = useState({});
+    const [isEditingTarget, setIsEditingTarget] = useState({});
+    const { setTarget, setAssigned, getAvailable, assigned, targets } = useBudgetStore();
 
-	const handleSave = (type, index) => {
-		setEditingCell(null);
-	};
+    const handleChange = (category, index, value) => {
+        const newValues = { ...editedValues };
+        newValues[category] = newValues[category] || {};
+        newValues[category][index] = value;
+        setEditedValues(newValues);
+    };
 
-	const handleChange = (type, index, value) => {
-		const newValues = { ...editedValues };
-		newValues[type][index] = Number(value) || 0;
-		setEditedValues(newValues);
-	};
+    const handleAssignedBlur = (category, index) => {
+        const value = parseFloat(editedValues[category]?.[index]) || 0;
+        setAssigned(category, index, value);
+        setIsEditing((prev) => ({ 
+            ...prev, 
+            [category]: { ...prev[category], [index]: false } 
+        }));
+    };
 
-	return (
-		<>
-			{categories.map((category, index) => (
-				<th
-					key={`${key}-${index}`}
-					className="px-6 py-3 text-left text-sm font-semibold text-white bg-blue-600 shadow-md"
-				>
-					<div className="flex items-center gap-2">
-						{category}
-						{category === "Assigned" && (
-							<span className="text-xs bg-blue-700 px-2 py-1 rounded-full">
-								Total: ${editedValues.assigned.reduce((a, b) => a + b, 0).toLocaleString()}
-							</span>
-						)}
-						{category === "Available" && (
-							<span className="text-xs bg-blue-700 px-2 py-1 rounded-full">
-								Total: ${editedValues.available.reduce((a, b) => a + b, 0).toLocaleString()}
-							</span>
-						)}
-					</div>
-				</th>
-			))}
-			{answers.map((answer, index) => (
-				<tr 
-					key={`${key}-${index}`} 
-					className="border-b border-gray-200 hover:bg-gray-50 transition-colors duration-150"
-				>
-					<td className="px-6 py-4 whitespace-nowrap">
-						<div className="flex items-center gap-3">
-							<input
-								type="checkbox"
-								defaultChecked
-								className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-								aria-label={`Select ${answer}`}
-							/>
-							<span className="text-sm font-medium text-gray-900">{answer}</span>
-						</div>
-					</td>
-					<td className="px-6 py-4 whitespace-nowrap">
-						{editingCell?.type === 'assigned' && editingCell?.index === index ? (
-							<div className="flex items-center gap-2">
-								<div className="relative">
-									<span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">$</span>
-									<input
-										type="number"
-										value={editedValues.assigned[index]}
-										onChange={(e) => handleChange('assigned', index, e.target.value)}
-										className="w-32 pl-7 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-										min="0"
-										step="0.01"
-										autoFocus
-									/>
-								</div>
-								<button 
-									type="button" 
-									className="px-3 py-1 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors duration-150"
-									onClick={() => handleSave('assigned', index)}
-								>
-									Save
-								</button>
-								<button 
-									type="button" 
-									className="px-3 py-1 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-150"
-									onClick={() => setEditingCell(null)}
-								>
-									Cancel
-								</button>
-							</div>
-						) : (
-							<div className="flex items-center justify-between">
-								<span className="text-sm font-medium text-gray-900">
-									${editedValues.assigned[index].toLocaleString()}
-								</span>
-								<button 
-									type="button" 
-									className="px-3 py-1 text-sm font-medium text-blue-600 hover:text-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-md transition-colors duration-150"
-									onClick={() => handleEdit('assigned', index)}
-								>
-									Edit
-								</button>
-							</div>
-						)}
-					</td>
-					<td className="px-6 py-4 whitespace-nowrap">
-						{editingCell?.type === 'available' && editingCell?.index === index ? (
-							<div className="flex items-center gap-2">
-								<div className="relative">
-									<span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">$</span>
-									<input
-										type="number"
-										value={editedValues.available[index]}
-										onChange={(e) => handleChange('available', index, e.target.value)}
-										className="w-32 pl-7 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-										min="0"
-										step="0.01"
-										autoFocus
-									/>
-								</div>
-								<button 
-									type="button" 
-									className="px-3 py-1 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors duration-150"
-									onClick={() => handleSave('available', index)}
-								>
-									Save
-								</button>
-								<button 
-									type="button" 
-									className="px-3 py-1 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-150"
-									onClick={() => setEditingCell(null)}
-								>
-									Cancel
-								</button>
-							</div>
-						) : (
-							<div className="flex items-center justify-between">
-								<span className="text-sm font-medium text-gray-900">
-									${editedValues.available[index].toLocaleString()}
-								</span>
-								<button 
-									type="button" 
-									className="px-3 py-1 text-sm font-medium text-blue-600 hover:text-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-md transition-colors duration-150"
-									onClick={() => handleEdit('available', index)}
-								>
-									Edit
-								</button>
-							</div>
-						)}
-					</td>
-				</tr>
-			))}
-		</>
-	);
+    const handleTargetBlur = (category, index) => {
+        const value = parseFloat(editedValues[category]?.[index]) || 0;
+        setTarget(category, index, value);
+        setIsEditingTarget((prev) => ({ 
+            ...prev, 
+            [category]: { ...prev[category], [index]: false } 
+        }));
+    };
+
+    const handleAssignedClick = (category, index) => {
+        setIsEditing((prev) => ({ 
+            ...prev, 
+            [category]: { ...prev[category], [index]: true } 
+        }));
+    };
+
+    const handleTargetClick = (category, index) => {
+        setIsEditingTarget((prev) => ({ 
+            ...prev, 
+            [category]: { ...prev[category], [index]: true } 
+        }));
+    };
+
+    const getCategoryColor = (category) => {
+        switch(category) {
+            case 'bills': return 'from-blue-500/10 to-blue-500/5';
+            case 'needs': return 'from-green-500/10 to-green-500/5';
+            case 'wants': return 'from-purple-500/10 to-purple-500/5';
+            default: return 'from-gray-500/10 to-gray-500/5';
+        }
+    };
+
+    return (
+        <tbody className="divide-y divide-gray-200">
+            {Object.entries(categorizedAnswers).map(([category, items]) => (
+                <React.Fragment key={category}>
+                    <tr className={`bg-gradient-to-r ${getCategoryColor(category)}`}>
+                        <td colSpan="4" className="font-semibold text-left px-4 py-3 text-gray-700">
+                            {category.charAt(0).toUpperCase() + category.slice(1)}
+                        </td>
+                    </tr>
+                    {items.map((item, index) => (
+                        <tr key={index} className="hover:bg-gray-50/50 transition-colors duration-150">
+                            <td className="px-4 py-3">
+                                <div className="flex flex-col gap-2">
+                                    <span className="text-gray-700">{item}</span>
+                                    <ProgressBar 
+                                        assigned={assigned[category]?.[index] || 0}
+                                        target={targets[category]?.[index] || 0}
+                                    />
+                                </div>
+                            </td>
+                            <td className="px-4 py-3 text-right">
+                                {isEditing[category]?.[index] ? (
+                                    <input
+                                        type="number"
+                                        value={editedValues[category]?.[index] || ''}
+                                        onChange={(e) => handleChange(category, index, e.target.value)}
+                                        onBlur={() => handleAssignedBlur(category, index)}
+                                        className="border border-gray-300 rounded-lg px-3 py-1.5 w-28 text-right focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                        autoFocus
+                                    />
+                                ) : (
+                                    <span 
+                                        onClick={() => handleAssignedClick(category, index)}
+                                        className="cursor-pointer hover:text-blue-600 transition-colors px-2 py-1 rounded hover:bg-blue-50"
+                                    >
+                                        ${assigned[category]?.[index] || 0}
+                                    </span>
+                                )}
+                            </td>
+                            <td className="px-4 py-3 text-right">
+                                {isEditingTarget[category]?.[index] ? (
+                                    <input
+                                        type="number"
+                                        value={editedValues[category]?.[index] || ''}
+                                        onChange={(e) => handleChange(category, index, e.target.value)}
+                                        onBlur={() => handleTargetBlur(category, index)}
+                                        className="border border-gray-300 rounded-lg px-3 py-1.5 w-28 text-right focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                        autoFocus
+                                    />
+                                ) : (
+                                    <span 
+                                        onClick={() => handleTargetClick(category, index)}
+                                        className="cursor-pointer hover:text-blue-600 transition-colors px-2 py-1 rounded hover:bg-blue-50"
+                                    >
+                                        ${targets[category]?.[index] || 0}
+                                    </span>
+                                )}
+                            </td>
+                            <td className="px-4 py-3 text-right">
+                                <span className={`font-medium ${getAvailable(category, index) < 0 ? 'text-red-600' : 'text-green-600'}`}>
+                                    ${getAvailable(category, index)}
+                                </span>
+                            </td>
+                        </tr>
+                    ))}
+                </React.Fragment>
+            ))}
+        </tbody>
+    );
 };
 
 export default TableRow;
