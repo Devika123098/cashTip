@@ -29,17 +29,26 @@ const StepN = ({
 	};
 
 	const getIcon = (option) => {
-		switch(option.toLowerCase()) {
-			case 'dining out': return '🍽️';
-			case 'entertainment': return '🎬';
-			case 'video games': return '🎮';
-			case 'hobbies': return '🎨';
-			case 'charity': return '❤️';
-			case 'gifts': return '🎁';
-			case 'home decor': return '🏠';
-			case 'celebrations': return '🎉';
+		switch (option.toLowerCase()) {
+			case "dining out":
+				return "🍽️";
+			case "entertainment":
+				return "🎬";
+			case "video games":
+				return "🎮";
+			case "hobbies":
+				return "🎨";
+			case "charity":
+				return "❤️";
+			case "gifts":
+				return "🎁";
+			case "home decor":
+				return "🏠";
+			case "celebrations":
+				return "🎉";
 			// Add more cases for other options
-			default: return '📌';
+			default:
+				return "📌";
 		}
 	};
 
@@ -63,9 +72,10 @@ const StepN = ({
 						<label
 							key={option}
 							className={`flex items-center gap-3 p-4 rounded-xl border-2 transition-all cursor-pointer
-								${selectedOptions.includes(option)
-									? 'border-blue-500 bg-blue-50'
-									: 'border-gray-200 hover:border-gray-300 bg-gray-50'
+								${
+									selectedOptions.includes(option)
+										? "border-blue-500 bg-blue-50"
+										: "border-gray-200 hover:border-gray-300 bg-gray-50"
 								}`}
 						>
 							<input
@@ -84,9 +94,7 @@ const StepN = ({
 					))}
 				</div>
 
-				{error && (
-					<p className="text-red-500 text-sm mb-4">{error}</p>
-				)}
+				{error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
 				<div className="flex justify-between items-center">
 					<button
