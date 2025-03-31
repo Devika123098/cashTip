@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router';
+import React, { useState } from "react";
+import { Link } from "react-router";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import TableRow from './components/TableRow';
-import useAnswerStore from '../../store/answerStore';
-import useBudgetStore from '../../store/budgetStore';
-import AddBalancePopup from '../pop-up/AddBalancePopup';
+import TableRow from "./components/TableRow";
+import useAnswerStore from "../../store/answerStore";
+import useBudgetStore from "../../store/budgetStore";
+import AddBalancePopup from "../pop-up/AddBalancePopup";
 
 const Dashboard = () => {
 	const answers = useAnswerStore((state) => state.answers);
 	const [selectedDate, setSelectedDate] = useState(new Date());
-	const { totalBalance, autoAssign, resetAssignments, addToBalance } = useBudgetStore();
+	const { totalBalance, autoAssign, resetAssignments, addToBalance } =
+		useBudgetStore();
 	const [showAddBalance, setShowAddBalance] = useState(false);
 
 	const handleAddBalance = (amount) => {
@@ -22,7 +23,7 @@ const Dashboard = () => {
 	};
 
 	const handleReset = () => {
-		if (window.confirm('Are you sure you want to reset all assignments?')) {
+		if (window.confirm("Are you sure you want to reset all assignments?")) {
 			resetAssignments();
 		}
 	};
@@ -31,70 +32,102 @@ const Dashboard = () => {
 		const categories = {
 			bills: [],
 			needs: [],
-			wants: []
+			wants: [],
 		};
 
-		answers.forEach(answer => {
+		answers.forEach((answer) => {
 			const lowerAnswer = answer.toLowerCase();
-			
+
 			// Housing & Living Situation (from step 1, 8)
-			if (lowerAnswer.includes('i rent') 
-			) {
+			if (lowerAnswer.includes("i rent")) {
 				categories.bills.push("rent");
-			}else if (lowerAnswer.includes('mortgage')) {
+			} else if (lowerAnswer.includes("mortgage")) {
 				categories.bills.push(answer);
 			}
 			// Regular Monthly Bills (from step 4)
-			else if (lowerAnswer.includes('phone') || lowerAnswer.includes('internet')) {
+			else if (
+				lowerAnswer.includes("phone") ||
+				lowerAnswer.includes("internet")
+			) {
 				categories.bills.push(answer);
 			}
 			// Subscriptions (from step 3)
-			else if (lowerAnswer.includes('music') || lowerAnswer.includes('tv streaming') || 
-					lowerAnswer.includes('fitness') || lowerAnswer.includes('online courses') || 
-					lowerAnswer.includes('audio or ebooks') || lowerAnswer.includes('news') || 
-					lowerAnswer.includes('meal delivery')) {
+			else if (
+				lowerAnswer.includes("music") ||
+				lowerAnswer.includes("tv streaming") ||
+				lowerAnswer.includes("fitness") ||
+				lowerAnswer.includes("online courses") ||
+				lowerAnswer.includes("audio or ebooks") ||
+				lowerAnswer.includes("news") ||
+				lowerAnswer.includes("meal delivery")
+			) {
 				categories.bills.push(answer);
 			}
 			// Debt & Loans (from step 7)
-			else if (lowerAnswer.includes('credit card') || lowerAnswer.includes('student loans') || 
-					lowerAnswer.includes('auto loans') || lowerAnswer.includes('personal loans') || 
-					lowerAnswer.includes('medical debt')) {
+			else if (
+				lowerAnswer.includes("credit card") ||
+				lowerAnswer.includes("student loans") ||
+				lowerAnswer.includes("auto loans") ||
+				lowerAnswer.includes("personal loans") ||
+				lowerAnswer.includes("medical debt")
+			) {
 				categories.bills.push(answer);
 			}
 			// Transportation (from step 5)
-			else if (lowerAnswer.includes('car') || lowerAnswer.includes('public transit') || 
-					lowerAnswer.includes('rideshare') || lowerAnswer.includes('motorcycle')) {
+			else if (
+				lowerAnswer.includes("car") ||
+				lowerAnswer.includes("public transit") ||
+				lowerAnswer.includes("rideshare") ||
+				lowerAnswer.includes("motorcycle")
+			) {
 				categories.needs.push(answer);
 			}
 			// Basic Needs (from step 4)
-			else if (lowerAnswer.includes('groceries') || lowerAnswer.includes('personal care') || 
-					lowerAnswer.includes('clothing')) {
+			else if (
+				lowerAnswer.includes("groceries") ||
+				lowerAnswer.includes("personal care") ||
+				lowerAnswer.includes("clothing")
+			) {
 				categories.needs.push(answer);
 			}
 			// Savings & Emergency (from step 10)
-			else if (lowerAnswer.includes('emergency fund') || lowerAnswer.includes('retirement') || 
-					lowerAnswer.includes('investments')) {
+			else if (
+				lowerAnswer.includes("emergency fund") ||
+				lowerAnswer.includes("retirement") ||
+				lowerAnswer.includes("investments")
+			) {
 				categories.needs.push(answer);
 			}
 			// Annual Expenses (from step 11)
-			else if (lowerAnswer.includes('annual credit card fees') || 
-					lowerAnswer.includes('medical expenses') || 
-					lowerAnswer.includes('taxes or other fees')) {
+			else if (
+				lowerAnswer.includes("annual credit card fees") ||
+				lowerAnswer.includes("medical expenses") ||
+				lowerAnswer.includes("taxes or other fees")
+			) {
 				categories.needs.push(answer);
-			}else if (lowerAnswer.includes('yes')) {
-		categories.needs.push("mortage");
-	}
+			} else if (lowerAnswer.includes("yes")) {
+				categories.needs.push("mortage");
+			}
 			// Discretionary/Wants (from step 9)
-			else if (lowerAnswer.includes('dining out') || lowerAnswer.includes('entertainment') || 
-					lowerAnswer.includes('video games') || lowerAnswer.includes('hobbies') || 
-					lowerAnswer.includes('charity') || lowerAnswer.includes('gifts') || 
-					lowerAnswer.includes('celebrations')) {
+			else if (
+				lowerAnswer.includes("dining out") ||
+				lowerAnswer.includes("entertainment") ||
+				lowerAnswer.includes("video games") ||
+				lowerAnswer.includes("hobbies") ||
+				lowerAnswer.includes("charity") ||
+				lowerAnswer.includes("gifts") ||
+				lowerAnswer.includes("celebrations")
+			) {
 				categories.wants.push(answer);
 			}
 			// Future Goals/Wants (from step 10)
-			else if (lowerAnswer.includes('new home') || lowerAnswer.includes('new car') || 
-					lowerAnswer.includes('vacation') || lowerAnswer.includes('baby') || 
-					lowerAnswer.includes('wedding')) {
+			else if (
+				lowerAnswer.includes("new home") ||
+				lowerAnswer.includes("new car") ||
+				lowerAnswer.includes("vacation") ||
+				lowerAnswer.includes("baby") ||
+				lowerAnswer.includes("wedding")
+			) {
 				categories.wants.push(answer);
 			}
 			// Everything else
@@ -120,19 +153,19 @@ const Dashboard = () => {
 				<div className="container mx-auto flex justify-between items-center">
 					<h1 className="text-2xl font-bold">Budget Dashboard</h1>
 					<div className="flex gap-4">
-						<button 
+						<button
 							onClick={handleAutoAssign}
 							className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
 						>
 							Auto-Assign
 						</button>
-						<button 
+						<button
 							onClick={handleReset}
 							className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
 						>
 							Reset
 						</button>
-						<button 
+						<button
 							onClick={() => setShowAddBalance(true)}
 							className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
 						>
@@ -172,8 +205,12 @@ const Dashboard = () => {
 							</div>
 						</div>
 						<div className="bg-gradient-to-r from-green-50 to-blue-50 p-4 rounded-xl shadow-md">
-							<div className="text-sm text-gray-600 font-medium">Ready to Assign</div>
-							<div className={`text-2xl font-bold ${totalBalance < 0 ? 'text-red-600' : 'text-green-600'}`}>
+							<div className="text-sm text-gray-600 font-medium">
+								Ready to Assign
+							</div>
+							<div
+								className={`text-2xl font-bold ${totalBalance < 0 ? "text-red-600" : "text-green-600"}`}
+							>
 								${totalBalance.toFixed(2)}
 							</div>
 						</div>
@@ -184,10 +221,18 @@ const Dashboard = () => {
 						<table className="w-full relative z-10">
 							<thead>
 								<tr className="bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
-									<th className="text-left p-4 text-gray-600 font-semibold">Category</th>
-									<th className="text-right p-4 text-gray-600 font-semibold">Assigned</th>
-									<th className="text-right p-4 text-gray-600 font-semibold">Target</th>
-									<th className="text-right p-4 text-gray-600 font-semibold">Available</th>
+									<th className="text-left p-4 text-gray-600 font-semibold">
+										Category
+									</th>
+									<th className="text-right p-4 text-gray-600 font-semibold">
+										Assigned
+									</th>
+									<th className="text-right p-4 text-gray-600 font-semibold">
+										Target
+									</th>
+									<th className="text-right p-4 text-gray-600 font-semibold">
+										Available
+									</th>
 								</tr>
 							</thead>
 							<TableRow categorizedAnswers={categorizedAnswers} />
