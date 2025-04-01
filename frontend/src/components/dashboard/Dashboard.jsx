@@ -150,43 +150,45 @@ const Dashboard = () => {
 				/>
 			)}
 			<nav className="bg-blue-600 shadow-lg text-white p-4">
-				<div className="container mx-auto flex justify-between items-center">
-					<h1 className="text-2xl font-bold">Budget Dashboard</h1>
-					<div className="flex gap-4">
-						<button
-							onClick={handleAutoAssign}
-							className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
-						>
-							Auto-Assign
-						</button>
-						<button
-							onClick={handleReset}
-							className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
-						>
-							Reset
-						</button>
-						<button
-							onClick={() => setShowAddBalance(true)}
-							className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
-						>
-							Add Balance
-						</button>
+				<div className="container mx-auto">
+					<div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+						<h1 className="text-2xl font-bold">Budget Dashboard</h1>
+						<div className="flex flex-wrap justify-center gap-2 sm:gap-4">
+							<button
+								onClick={handleAutoAssign}
+								className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 text-sm sm:text-base"
+							>
+								Auto-Assign
+							</button>
+							<button
+								onClick={handleReset}
+								className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 text-sm sm:text-base"
+							>
+								Reset
+							</button>
+							<button
+								onClick={() => setShowAddBalance(true)}
+								className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 text-sm sm:text-base"
+							>
+								Add Balance
+							</button>
+						</div>
 					</div>
 				</div>
 			</nav>
 
-			<main className="container mx-auto p-6">
-				<div className="bg-white rounded-xl shadow-2xl p-8 mb-6 backdrop-blur-sm backdrop-filter">
-					<div className="flex justify-between items-center mb-8">
-						<div className="flex items-center gap-6">
+			<main className="container mx-auto p-4 sm:p-6">
+				<div className="bg-white rounded-xl shadow-2xl p-4 sm:p-8 mb-6 backdrop-blur-sm backdrop-filter">
+					<div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0 mb-8">
+						<div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 w-full sm:w-auto">
 							<DatePicker
 								selected={selectedDate}
 								onChange={(date) => setSelectedDate(date)}
 								dateFormat="MMMM yyyy"
 								showMonthYearPicker
-								className="text-2xl font-bold border-none focus:ring-2 focus:ring-blue-500 rounded-lg"
+								className="text-xl sm:text-2xl font-bold border-none focus:ring-2 focus:ring-blue-500 rounded-lg w-full sm:w-auto"
 							/>
-							<div className="text-sm text-gray-600 bg-gray-50 p-4 rounded-lg shadow-inner">
+							<div className="text-sm text-gray-600 bg-gray-50 p-3 sm:p-4 rounded-lg shadow-inner w-full sm:w-auto">
 								<h3 className="font-semibold mb-2">Auto-assign Distribution</h3>
 								<ul className="space-y-1">
 									<li className="flex items-center gap-2">
@@ -204,12 +206,12 @@ const Dashboard = () => {
 								</ul>
 							</div>
 						</div>
-						<div className="bg-gradient-to-r from-green-50 to-blue-50 p-4 rounded-xl shadow-md">
+						<div className="bg-gradient-to-r from-green-50 to-blue-50 p-3 sm:p-4 rounded-xl shadow-md w-full sm:w-auto">
 							<div className="text-sm text-gray-600 font-medium">
 								Ready to Assign
 							</div>
 							<div
-								className={`text-2xl font-bold ${totalBalance < 0 ? "text-red-600" : "text-green-600"}`}
+								className={`text-xl sm:text-2xl font-bold ${totalBalance < 0 ? "text-red-600" : "text-green-600"}`}
 							>
 								${totalBalance.toFixed(2)}
 							</div>
@@ -218,25 +220,27 @@ const Dashboard = () => {
 
 					<div className="relative overflow-hidden rounded-xl shadow-xl">
 						<div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-purple-500/5"></div>
-						<table className="w-full relative z-10">
-							<thead>
-								<tr className="bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
-									<th className="text-left p-4 text-gray-600 font-semibold">
-										Category
-									</th>
-									<th className="text-right p-4 text-gray-600 font-semibold">
-										Assigned
-									</th>
-									<th className="text-right p-4 text-gray-600 font-semibold">
-										Target
-									</th>
-									<th className="text-right p-4 text-gray-600 font-semibold">
-										Available
-									</th>
-								</tr>
-							</thead>
-							<TableRow categorizedAnswers={categorizedAnswers} />
-						</table>
+						<div className="overflow-x-auto">
+							<table className="w-full relative z-10">
+								<thead>
+									<tr className="bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+										<th className="text-left p-3 sm:p-4 text-gray-600 font-semibold text-sm sm:text-base">
+											Category
+										</th>
+										<th className="text-right p-3 sm:p-4 text-gray-600 font-semibold text-sm sm:text-base">
+											Assigned
+										</th>
+										<th className="text-right p-3 sm:p-4 text-gray-600 font-semibold text-sm sm:text-base">
+											Target
+										</th>
+										<th className="text-right p-3 sm:p-4 text-gray-600 font-semibold text-sm sm:text-base">
+											Available
+										</th>
+									</tr>
+								</thead>
+								<TableRow categorizedAnswers={categorizedAnswers} />
+							</table>
+						</div>
 					</div>
 				</div>
 			</main>

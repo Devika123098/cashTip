@@ -74,61 +74,61 @@ const TableRow = ({ categorizedAnswers }) => {
             {Object.entries(categorizedAnswers).map(([category, items]) => (
                 <React.Fragment key={category}>
                     <tr className={`bg-gradient-to-r ${getCategoryColor(category)}`}>
-                        <td colSpan="4" className="font-semibold text-left px-4 py-3 text-gray-700">
+                        <td colSpan="4" className="font-semibold text-left px-3 sm:px-4 py-2 sm:py-3 text-gray-700 text-sm sm:text-base">
                             {category.charAt(0).toUpperCase() + category.slice(1)}
                         </td>
                     </tr>
                     {items.map((item, index) => (
                         <tr key={index} className="hover:bg-gray-50/50 transition-colors duration-150">
-                            <td className="px-4 py-3">
-                                <div className="flex flex-col gap-2">
-                                    <span className="text-gray-700">{item}</span>
+                            <td className="px-3 sm:px-4 py-2 sm:py-3">
+                                <div className="flex flex-col gap-1 sm:gap-2">
+                                    <span className="text-gray-700 text-sm sm:text-base">{item}</span>
                                     <ProgressBar 
                                         assigned={assigned[category]?.[index] || 0}
                                         target={targets[category]?.[index] || 0}
                                     />
                                 </div>
                             </td>
-                            <td className="px-4 py-3 text-right">
+                            <td className="px-3 sm:px-4 py-2 sm:py-3 text-right">
                                 {isEditing[category]?.[index] ? (
                                     <input
                                         type="number"
                                         value={editedValues[category]?.[index] || ''}
                                         onChange={(e) => handleChange(category, index, e.target.value)}
                                         onBlur={() => handleAssignedBlur(category, index)}
-                                        className="border border-gray-300 rounded-lg px-3 py-1.5 w-28 text-right focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                        className="border border-gray-300 rounded-lg px-2 sm:px-3 py-1 sm:py-1.5 w-20 sm:w-28 text-right text-sm sm:text-base focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                         autoFocus
                                     />
                                 ) : (
                                     <span 
                                         onClick={() => handleAssignedClick(category, index)}
-                                        className="cursor-pointer hover:text-blue-600 transition-colors px-2 py-1 rounded hover:bg-blue-50"
+                                        className="cursor-pointer hover:text-blue-600 transition-colors px-2 py-1 rounded hover:bg-blue-50 text-sm sm:text-base"
                                     >
                                         ${assigned[category]?.[index] || 0}
                                     </span>
                                 )}
                             </td>
-                            <td className="px-4 py-3 text-right">
+                            <td className="px-3 sm:px-4 py-2 sm:py-3 text-right">
                                 {isEditingTarget[category]?.[index] ? (
                                     <input
                                         type="number"
                                         value={editedValues[category]?.[index] || ''}
                                         onChange={(e) => handleChange(category, index, e.target.value)}
                                         onBlur={() => handleTargetBlur(category, index)}
-                                        className="border border-gray-300 rounded-lg px-3 py-1.5 w-28 text-right focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                        className="border border-gray-300 rounded-lg px-2 sm:px-3 py-1 sm:py-1.5 w-20 sm:w-28 text-right text-sm sm:text-base focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                         autoFocus
                                     />
                                 ) : (
                                     <span 
                                         onClick={() => handleTargetClick(category, index)}
-                                        className="cursor-pointer hover:text-blue-600 transition-colors px-2 py-1 rounded hover:bg-blue-50"
+                                        className="cursor-pointer hover:text-blue-600 transition-colors px-2 py-1 rounded hover:bg-blue-50 text-sm sm:text-base"
                                     >
                                         ${targets[category]?.[index] || 0}
                                     </span>
                                 )}
                             </td>
-                            <td className="px-4 py-3 text-right">
-                                <span className={`font-medium ${getAvailable(category, index) < 0 ? 'text-red-600' : 'text-green-600'}`}>
+                            <td className="px-3 sm:px-4 py-2 sm:py-3 text-right">
+                                <span className={`font-medium text-sm sm:text-base ${getAvailable(category, index) < 0 ? 'text-red-600' : 'text-green-600'}`}>
                                     ${getAvailable(category, index)}
                                 </span>
                             </td>
